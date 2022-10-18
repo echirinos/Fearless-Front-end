@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 class LocationForm extends React.Component {
   constructor(props) {
@@ -7,64 +7,63 @@ class LocationForm extends React.Component {
       name: '',
       roomCount: '',
       city: '',
-      states: [],
-    }
-    this.handleNameChange = this.handleNameChange.bind(this)
-    this.handleRoomCountChange = this.handleRoomCountChange.bind(this)
-    this.handleCityChange = this.handleCityChange.bind(this)
-    this.handleStateChange = this.handleStateChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+      states: []
+    };
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleCityChange = this.handleCityChange.bind(this);
+    this.handleRoomCountChange = this.handleRoomCountChange.bind(this);
+    this.handleStateChange = this.handleStateChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   async handleSubmit(event) {
-    event.preventDefault()
-    const data = { ...this.state }
-    data.room_count = data.roomCount
-    delete data.roomCount
-    delete data.states
-    console.log(data)
+    event.preventDefault();
+    const data = { ...this.state };
+    data.room_count = data.roomCount;
+    delete data.roomCount;
+    delete data.states;
 
-    const locationUrl = 'http://localhost:8000/api/locations/'
+    const locationUrl = 'http://localhost:8000/api/locations/';
     const fetchConfig = {
       method: "post",
       body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
-      }
-    }
-    const response = await fetch(locationUrl, fetchConfig)
+      },
+    };
+    const response = await fetch(locationUrl, fetchConfig);
     if (response.ok) {
-      const newLocation = await response.json()
-      console.log(newLocation)
+      const newLocation = await response.json();
+      console.log(newLocation);
 
       const cleared = {
         name: '',
         roomCount: '',
         city: '',
         state: '',
-      }
-      this.setState(cleared)
+      };
+      this.setState(cleared);
     }
   }
 
   handleNameChange(event) {
-    const value = event.target.value
+    const value = event.target.value;
     this.setState({ name: value })
   }
 
   handleRoomCountChange(event) {
-    const value = event.target.value
+    const value = event.target.value;
     this.setState({ roomCount: value })
   }
 
   handleCityChange(event) {
-    const value = event.target.value
+    const value = event.target.value;
     this.setState({ city: value })
   }
 
   handleStateChange(event) {
-    const value = event.target.value
-    this.setState({ state: value })
+    const value = event.target.value;
+    this.setState({ state: value });
   }
 
   async componentDidMount() {
@@ -73,12 +72,10 @@ class LocationForm extends React.Component {
     const response = await fetch(url);
 
     if (response.ok) {
-      const data = await response.json()
-      this.setState({ states: data.states })
-
+      const data = await response.json();
+      this.setState({ states: data.states });
     }
   }
-
 
   render() {
     return (
@@ -104,10 +101,10 @@ class LocationForm extends React.Component {
                   <option value="">Choose a state</option>
                   {this.state.states.map(state => {
                     return (
-                      <option value={state.abbreviation} key={state.abbreviation}>
+                      <option key={state.abbreviation} value={state.abbreviation}>
                         {state.name}
                       </option>
-                    )
+                    );
                   })}
                 </select>
               </div>
@@ -120,4 +117,4 @@ class LocationForm extends React.Component {
   }
 }
 
-export default LocationForm
+export default LocationForm;
